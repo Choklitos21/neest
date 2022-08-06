@@ -9,6 +9,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
+    "prestart": "docker-compose up -d",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -18,7 +19,13 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./apps/nest-api/test/jest-e2e.json"
+    "test:e2e": "jest --config ./apps/nest-api/test/jest-e2e.json",
+    "typeorm": "ts-node -r tsconfig-paths/register typeorm-migrations",
+    "typeorm-cli": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "migration:run:all": "npm run typeorm -- --app='ALL' --action='migration:run'",
+    "migration:run:api": "npm run typeorm -- --app='api' --action='migration:run'",
+    "migration:revert:api": "npm run typeorm -- --app='api' --action='migration:revert'"
+
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
@@ -27,6 +34,11 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^6.0.4",
+    "@nestjs/typeorm": "^9.0.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.13.2",
+    "find-up": "^5.0.0",
+    "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0"
